@@ -1,2 +1,2 @@
-# Github_Contributor_Searcher
+# Github-Contributor-Searcher
 Github_Contributor_Searcher adds search form on contributors page in Github
