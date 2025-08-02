@@ -1,0 +1,10 @@
+.gcs-container {
+    padding: 10px;
+    background: #f6f8fa;
+    border-bottom: 1px solid #ddd;
+}
+
+.gcs-input {
+    padding: 5px;
+    width: 200px;
+}
