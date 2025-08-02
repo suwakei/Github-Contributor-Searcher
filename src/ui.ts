@@ -1,22 +1,26 @@
-import { debounce } from './utils.ts'
+import { debounce } from './utils'
 import './ui.css'
 
+const DEBOUNCE_DELAY_MS = 300;
+const SEARCH_PLACEHOLDER = "Search UserName"
+const INSERT_TARGET_SELECTOR = '.js-details-container';
 export function insertSearchBar(onSearch: (keyword: string) => void) {
     const container = document.createElement('div');
     container.className = 'gcs-container';
 
     const input = document.createElement('input');
     input.type = 'text';
-    input.placeholder = 'Search UserName';
+    input.placeholder = SEARCH_PLACEHOLDER;
     input.className = 'gcs-input';
+    input.setAttribute('aria-label', 'Search contributors by username');
 
     input.addEventListener('input', debounce(() => {
     onSearch(input.value.toLowerCase());
-    }, 300));
+    }, DEBOUNCE_DELAY_MS));
 
     container.appendChild(input);
 
-    const target = document.querySelector('.js-details-container');
+    const target = document.querySelector(INSERT_TARGET_SELECTOR);
     if (target?.parentElement) {
     target.parentElement.insertBefore(container, target);
     }
