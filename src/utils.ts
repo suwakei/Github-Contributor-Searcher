@@ -5,6 +5,12 @@ export function debounce<T extends (...args: any[]) => void>(
   let timeout: number | undefined;
   return (...args: Parameters<T>) => {
     clearTimeout(timeout);
-    timeout = window.setTimeout(() => func(...args), wait);
+    timeout = window.setTimeout(() => {
+      try {
+        func(...args);
+      } catch (error) {
+        console.error('Error in debounced function:', error);
+      }
+    }, wait);
   };
 }

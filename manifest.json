@@ -13,7 +13,7 @@
       "matches": [
         "https://github.com/*/*/graphs/contributors*",
         "https://github.com/*/*/contributors*"
-        ],
+      ],
       "js": ["src/content.ts"],
       "run_at": "document_idle"
     }

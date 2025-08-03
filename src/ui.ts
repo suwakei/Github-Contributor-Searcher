@@ -27,29 +27,43 @@ export function insertSearchBar(onSearch: (keyword: string) => void) {
 
   container.appendChild(input);
 
-  // --- 挿入ロジック ---
-  // Periodボタンを含むコンテナを探す
-  const preferredTarget = document.querySelector(
-    PREFERRED_INSERT_TARGET_SELECTOR
-  );
+  try {
+    // --- 挿入ロジック ---
+    // Periodボタンを含むコンテナを探す
+    const preferredTarget = document.querySelector(
+      PREFERRED_INSERT_TARGET_SELECTOR
+    );
 
-  if (preferredTarget) {
-    // 見つかったら、そのコンテナに検索バーを追加
-    preferredTarget.appendChild(container);
-  } else {
-    // フォールバック：以前のロジック（グラフの下）
-    console.warn(
-      `[GitHub Contributor Searcher] Could not find preferred target ('${PREFERRED_INSERT_TARGET_SELECTOR}'). Falling back to block display.`
-    );
-    container.classList.add('gcs-container--block');
-    const fallbackTarget = document.querySelector(
-      FALLBACK_INSERT_TARGET_SELECTOR
-    );
-    const chartElement = fallbackTarget?.previousElementSibling;
-    if (chartElement) {
-      chartElement.after(container);
-    } else if (fallbackTarget?.parentElement) {
-      fallbackTarget.parentElement.insertBefore(container, fallbackTarget);
+    if (preferredTarget) {
+      // 見つかったら、そのコンテナに検索バーを追加
+      preferredTarget.appendChild(container);
+    } else {
+      // フォールバック：以前のロジック（グラフの下）
+      console.warn(
+        `[GitHub Contributor Searcher] Could not find preferred target ('${PREFERRED_INSERT_TARGET_SELECTOR}'). Falling back to block display.`
+      );
+      container.classList.add('gcs-container--block');
+      const fallbackTarget = document.querySelector(
+        FALLBACK_INSERT_TARGET_SELECTOR
+      );
+
+      if (!fallbackTarget) {
+        throw new Error(
+          `Fallback target ('${FALLBACK_INSERT_TARGET_SELECTOR}') not found.`
+        );
+      }
+
+      const chartElement = fallbackTarget.previousElementSibling;
+      if (chartElement) {
+        chartElement.after(container);
+      } else if (fallbackTarget.parentElement) {
+        fallbackTarget.parentElement.insertBefore(container, fallbackTarget);
+      }
     }
+  } catch (error) {
+    console.error(
+      '[GitHub Contributor Searcher] Failed to insert search bar:',
+      error
+    );
   }
 }
