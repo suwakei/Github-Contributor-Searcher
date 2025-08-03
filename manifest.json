@@ -5,20 +5,16 @@
   "description": "GitHubのcontributorページでユーザー名を検索できる拡張機能",
   "permissions": [],
   "host_permissions": [
-    "https://github.com/*/*/graphs/contributors*"
+    "https://github.com/*/*/contributors"
   ],
   "content_scripts": [
     {
-      "matches": [
-        "https://github.com/*/*/graphs/contributors*"
-      ],
-      "js": ["src/content.js"],
+      "matches": ["https://github.com/*/*/contributors"],
+      "js": ["content.js"],
       "run_at": "document_idle"
     }
   ],
   "icons": {
-    "16": "public/icon.png",
-    "48": "public/icon.png",
-    "128": "public/icon.png"
+    "128": "icon.png"
   }
 }
