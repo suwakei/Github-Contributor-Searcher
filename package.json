@@ -4,18 +4,21 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "build": "npx tsc && copyfiles manifest.json icon.png dist",
+    "dev": "vite",
+    "build": "vite build",
     "fmt": "prettier --write .",
     "fmt:check": "prettier --check .",
     "lint": "eslint 'src/**/*.ts'",
     "lint:fix": "eslint 'src/**/*.ts' --fix"
   },
   "devDependencies": {
+    "@crxjs/vite-plugin": "^2.0.0-beta.25",
     "@typescript-eslint/eslint-plugin": "^7.17.0",
     "@typescript-eslint/parser": "^7.17.0",
-    "copyfiles": "^2.4.1",
     "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
     "prettier": "^3.6.2",
-    "typescript": "~5.8.3"
+    "typescript": "~5.8.3",
+    "vite": "^5.4.0"
   }
 }

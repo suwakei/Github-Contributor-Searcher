@@ -2,13 +2,13 @@
   "manifest_version": 3,
   "name": "GitHub Contributors Search",
   "version": "1.0",
-  "description": "Add a username search form to the GitHub contributor page",
+  "description": "Add a username search form to the GitHub contributors page",
   "permissions": [],
-  "host_permissions": ["https://github.com/*/*/contributors"],
+  "host_permissions": ["https://github.com/*/*/graphs/contributors*"],
   "content_scripts": [
     {
-      "matches": ["https://github.com/*/*/contributors"],
-      "js": ["content.js"],
+      "matches": ["https://github.com/*/*/graphs/contributors*"],
+      "js": ["src/content.ts"],
       "run_at": "document_idle"
     }
   ],
