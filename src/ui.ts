@@ -1,29 +1,51 @@
-import { debounce } from './utils'
-import './ui.css'
+import { debounce } from './utils';
+import './ui.css';
 
 const DEBOUNCE_DELAY_MS = 300;
-const SEARCH_PLACEHOLDER = "Search UserName"
-const INSERT_TARGET_SELECTOR = '.js-details-container';
+const SEARCH_PLACEHOLDER = 'Search UserName';
+const FALLBACK_INSERT_TARGET_SELECTOR = '.js-details-container';
+// Selector for the container holding the "Period" and "Contributions" buttons.
+const PREFERRED_INSERT_TARGET_SELECTOR = '.Box-header .d-flex.gap-2';
+
 export function insertSearchBar(onSearch: (keyword: string) => void) {
-    const container = document.createElement('div');
-    container.className = 'gcs-container';
+  const container = document.createElement('div');
+  container.className = 'gcs-container';
 
-    const input = document.createElement('input');
-    input.type = 'text';
-    input.placeholder = SEARCH_PLACEHOLDER;
-    input.className = 'gcs-input';
-    input.setAttribute('aria-label', 'Search contributors by username');
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.placeholder = SEARCH_PLACEHOLDER;
+  input.className = 'gcs-input';
+  input.setAttribute('aria-label', 'Search contributors by username');
 
-    input.addEventListener('input', debounce(() => {
-    onSearch(input.value.toLowerCase());
-    }, DEBOUNCE_DELAY_MS));
+  input.addEventListener(
+    'input',
+    debounce(() => {
+      onSearch(input.value.toLowerCase());
+    }, DEBOUNCE_DELAY_MS)
+  );
 
-    container.appendChild(input);
+  container.appendChild(input);
 
-    const target = document.querySelector(INSERT_TARGET_SELECTOR);
-    if (target?.parentElement) {
-        target.parentElement.insertBefore(container, target);
+  // Try to insert next to the filter buttons first
+  const preferredTarget = document.querySelector(
+    PREFERRED_INSERT_TARGET_SELECTOR
+  );
+  if (preferredTarget) {
+    preferredTarget.appendChild(container);
+  } else {
+    // Fallback to the original position if the preferred target is not found
+    console.warn(
+      `[GitHub Contributor Searcher] Could not find preferred target ('${PREFERRED_INSERT_TARGET_SELECTOR}'). Falling back to default position.`
+    );
+    const fallbackTarget = document.querySelector(
+      FALLBACK_INSERT_TARGET_SELECTOR
+    );
+    if (fallbackTarget?.parentElement) {
+      fallbackTarget.parentElement.insertBefore(container, fallbackTarget);
     } else {
-        console.warn(`[GitHub Contributor Searcher] Could not find target element ('${INSERT_TARGET_SELECTOR}') to insert search bar.`);
+      console.error(
+        `[GitHub Contributor Searcher] Could not find any target element to insert search bar.`
+      );
     }
+  }
 }

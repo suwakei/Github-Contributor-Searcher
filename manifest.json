@@ -4,9 +4,7 @@
   "version": "1.0",
   "description": "Add a username search form to the GitHub contributor page",
   "permissions": [],
-  "host_permissions": [
-    "https://github.com/*/*/contributors"
-  ],
+  "host_permissions": ["https://github.com/*/*/contributors"],
   "content_scripts": [
     {
       "matches": ["https://github.com/*/*/contributors"],
