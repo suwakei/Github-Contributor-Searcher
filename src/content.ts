@@ -5,6 +5,7 @@ import { filterContributors, cacheContributorElements } from './search';
 let isInitialized = false;
 
 function init() {
+  console.log("running searcher")
   // 既に初期化済みの場合は何もしない
   if (isInitialized) return;
 
