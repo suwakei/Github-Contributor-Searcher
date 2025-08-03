@@ -22,6 +22,8 @@ export function insertSearchBar(onSearch: (keyword: string) => void) {
 
     const target = document.querySelector(INSERT_TARGET_SELECTOR);
     if (target?.parentElement) {
-    target.parentElement.insertBefore(container, target);
+        target.parentElement.insertBefore(container, target);
+    } else {
+        console.warn(`[GitHub Contributor Searcher] Could not find target element ('${INSERT_TARGET_SELECTOR}') to insert search bar.`);
     }
 }
