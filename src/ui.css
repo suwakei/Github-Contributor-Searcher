@@ -1,3 +1,13 @@
+.gcs-container {
+  /* ボタン横などにインラインで配置される場合の基本スタイル */
+  display: inline-block;
+}
+.gcs-container.gcs-container--block {
+  /* セクション間にブロックとして配置される場合のスタイル */
+  display: block;
+  padding: 16px;
+  margin-bottom: 16px;
+}
 .gcs-input {
   /* Match GitHub's input style (Primer CSS) to align with buttons */
   padding: 5px 12px;
