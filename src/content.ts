@@ -1,7 +1,13 @@
 import { insertSearchBar } from './ui';
 import { filterContributors, cacheContributorElements } from './search';
 
+// 拡張機能が既に初期化されたかを追跡するフラグ
+let isInitialized = false;
+
 function init() {
+  // 既に初期化済みの場合は何もしない
+  if (isInitialized) return;
+
   // ContributorのDOMが出るまで待機
   const observer = new MutationObserver(() => {
     const contributors = document.querySelectorAll('.contrib-person');
@@ -11,6 +17,7 @@ function init() {
       insertSearchBar((keyword: string) => {
         filterContributors(keyword);
       });
+      isInitialized = true; // 初期化完了のフラグを立てる
     }
   });
 

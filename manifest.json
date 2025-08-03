@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "GitHub Contributor Search",
+  "name": "GitHub Contributors Search",
   "version": "1.0",
   "description": "Add a username search form to the GitHub contributor page",
   "permissions": [],
