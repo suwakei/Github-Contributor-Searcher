@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "build": "tsc"
+    "build": "npx tsc"
   },
   "devDependencies": {
     "typescript": "~5.8.3"
