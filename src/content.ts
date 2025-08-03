@@ -9,8 +9,9 @@ function init() {
   if (isInitialized) return;
 
   // ContributorのDOMが出るまで待機
+  // GitHubのUI更新に対応するため、セレクタを '.contrib-person' から 'li.Box-row' に変更
   const observer = new MutationObserver(() => {
-    const contributors = document.querySelectorAll('.contrib-person');
+    const contributors = document.querySelectorAll('li.Box-row');
     if (contributors.length > 0) {
       observer.disconnect();
       cacheContributorElements(); // キャッシュ

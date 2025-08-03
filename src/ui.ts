@@ -4,12 +4,14 @@ import './ui.css';
 const DEBOUNCE_DELAY_MS = 300;
 const SEARCH_PLACEHOLDER = 'Search UserName';
 // コントリビューターリストのセレクタ。この要素を基準に挿入位置を決定します。
-const CONTRIBUTOR_LIST_SELECTOR = '.js-details-container';
+const PREFERRED_INSERT_TARGET_SELECTOR =
+  '.d-flex.flex-wrap.flex-justify-between .d-flex.gap-2';
+const FALLBACK_INSERT_TARGET_SELECTOR = '#contributors';
 
 export function insertSearchBar(onSearch: (keyword: string) => void) {
   const container = document.createElement('div');
-  // ブロック要素としてスタイルを適用するためのクラスを追加
-  container.className = 'gcs-container gcs-container--block';
+  // スタイル用のクラスはロジック内で動的に付与する
+  container.className = 'gcs-container';
   const input = document.createElement('input');
   input.type = 'text';
   input.placeholder = SEARCH_PLACEHOLDER;
@@ -26,22 +28,28 @@ export function insertSearchBar(onSearch: (keyword: string) => void) {
   container.appendChild(input);
 
   // --- 挿入ロジック ---
-  const contributorList = document.querySelector(CONTRIBUTOR_LIST_SELECTOR);
-  // グラフ要素は通常、コントリビューターリストの直前にある要素です。
-  const chartElement = contributorList?.previousElementSibling;
+  // Periodボタンを含むコンテナを探す
+  const preferredTarget = document.querySelector(
+    PREFERRED_INSERT_TARGET_SELECTOR
+  );
 
-  if (chartElement) {
-    // グラフ要素の直後に検索バーを挿入します。
-    chartElement.after(container);
-  } else if (contributorList?.parentElement) {
-    // フォールバック: グラフが見つからない場合、リストの直前に挿入します。
-    console.warn(
-      `[GitHub Contributor Searcher] Could not find the chart element. Inserting before the contributor list as a fallback.`
-    );
-    contributorList.parentElement.insertBefore(container, contributorList);
+  if (preferredTarget) {
+    // 見つかったら、そのコンテナに検索バーを追加
+    preferredTarget.appendChild(container);
   } else {
-    console.error(
-      `[GitHub Contributor Searcher] Could not find any target element to insert search bar.`
+    // フォールバック：以前のロジック（グラフの下）
+    console.warn(
+      `[GitHub Contributor Searcher] Could not find preferred target ('${PREFERRED_INSERT_TARGET_SELECTOR}'). Falling back to block display.`
     );
+    container.classList.add('gcs-container--block');
+    const fallbackTarget = document.querySelector(
+      FALLBACK_INSERT_TARGET_SELECTOR
+    );
+    const chartElement = fallbackTarget?.previousElementSibling;
+    if (chartElement) {
+      chartElement.after(container);
+    } else if (fallbackTarget?.parentElement) {
+      fallbackTarget.parentElement.insertBefore(container, fallbackTarget);
+    }
   }
 }

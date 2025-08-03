@@ -2,7 +2,8 @@ let contributorElements: HTMLElement[] = [];
 let noResultsElement: HTMLElement | null = null;
 
 export function cacheContributorElements() {
-  const nodes = document.querySelectorAll('.contrib-person');
+  // GitHubのUI更新に対応するため、セレクタを '.contrib-person' から 'li.Box-row' に変更
+  const nodes = document.querySelectorAll('li.Box-row');
   contributorElements = Array.from(nodes).filter(
     (node): node is HTMLElement => node instanceof HTMLElement
   );
@@ -24,8 +25,11 @@ export function cacheContributorElements() {
 export function filterContributors(keyword: string) {
   let visibleCount = 0;
   contributorElements.forEach((el) => {
-    const username =
-      el.querySelector('a span')?.textContent?.toLowerCase() || '';
+    // ログイン名 (例: gaearon) は color-fg-muted クラスを持つspan内にあるため、
+    // こちらを対象にすることで、表示名ではなくログイン名で検索できるようにする。
+    const usernameElement = el.querySelector('a span.color-fg-muted');
+    const username = usernameElement?.textContent?.trim().toLowerCase() || '';
+
     const isVisible = username.includes(keyword);
     el.style.display = isVisible ? '' : 'none';
     if (isVisible) {
